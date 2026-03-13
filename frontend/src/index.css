@@ -1,0 +1,668 @@
+/* ==============================
+   ArtChain — Global Styles
+   ============================== */
+
+/* ==============================
+   Google Fonts Import
+   ============================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+/* ==============================
+   CSS Variables
+   ============================== */
+
+:root {
+
+  /* Colors */
+  --bg-primary:    #050a0f;
+  --bg-card:       rgba(0, 255, 200, 0.03);
+  --border-color:  rgba(0, 255, 200, 0.12);
+  --border-active: rgba(0, 255, 200, 0.4);
+  --accent:        #00ffcc;
+  --accent-dim:    rgba(0, 255, 200, 0.08);
+  --accent-glow:   rgba(0, 255, 200, 0.3);
+  --danger:        #ff4466;
+  --warning:       #ffcc00;
+
+  /* Text */
+  --text-primary:  #e0e8f0;
+  --text-muted:    #445566;
+  --text-dim:      #334455;
+
+  /* Fonts */
+  --font-display:  'Orbitron', monospace;
+  --font-mono:     'Share Tech Mono', monospace;
+  --font-body:     'Courier New', monospace;
+
+  /* Spacing */
+  --radius-sm:     4px;
+  --radius-md:     8px;
+  --radius-lg:     12px;
+
+  /* Transitions */
+  --transition:    all 0.2s ease;
+}
+
+/* ==============================
+   Reset
+   ============================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin:     0;
+  padding:    0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color:            var(--text-primary);
+  font-family:      var(--font-body);
+  min-height:       100vh;
+  overflow-x:       hidden;
+  line-height:      1.5;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ==============================
+   Scrollbar
+   ============================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080f18;
+}
+
+::-webkit-scrollbar-thumb {
+  background:    rgba(0, 255, 200, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 200, 0.4);
+}
+
+/* ==============================
+   Selection
+   ============================== */
+
+::selection {
+  background: rgba(0, 255, 200, 0.2);
+  color:      var(--accent);
+}
+
+/* ==============================
+   Animations
+   ============================== */
+
+@keyframes scan {
+  0%   { top: 0;    }
+  100% { top: 100%; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;   }
+  50%       { opacity: 0.3; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity:   0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity:   1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--accent),
+                0 0 60px rgba(0, 255, 200, 0.2);
+  }
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity:   1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity:   0.5;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity:   0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity:   1;
+    transform: translateX(0);
+  }
+}
+
+/* ==============================
+   Card
+   ============================== */
+
+.card {
+  background:    var(--bg-card);
+  border:        1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+}
+
+/* ==============================
+   Buttons
+   ============================== */
+
+.btn-primary {
+  background:     linear-gradient(135deg, #00ffcc, #0088ff);
+  color:          var(--bg-primary);
+  border:         none;
+  padding:        12px 32px;
+  border-radius:  var(--radius-sm);
+  font-family:    var(--font-display);
+  font-weight:    700;
+  font-size:      13px;
+  cursor:         pointer;
+  letter-spacing: 2px;
+  transition:     var(--transition);
+  width:          100%;
+}
+
+.btn-primary:hover {
+  transform:  translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 255, 200, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity:    0.4;
+  cursor:     not-allowed;
+  transform:  none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background:     transparent;
+  border:         1px solid var(--border-color);
+  color:          var(--accent);
+  padding:        12px 24px;
+  border-radius:  var(--radius-sm);
+  cursor:         pointer;
+  font-family:    var(--font-display);
+  font-size:      11px;
+  letter-spacing: 1px;
+  transition:     var(--transition);
+  width:          100%;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent-glow);
+  background:   var(--accent-dim);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.btn-ghost {
+  background:     transparent;
+  border:         1px solid #223344;
+  color:          #556677;
+  padding:        10px;
+  border-radius:  var(--radius-sm);
+  cursor:         pointer;
+  font-size:      11px;
+  font-family:    var(--font-display);
+  letter-spacing: 1px;
+  transition:     var(--transition);
+  width:          100%;
+}
+
+.btn-ghost:hover {
+  border-color: #334455;
+  color:        #778899;
+}
+
+/* ==============================
+   Tab Navigation
+   ============================== */
+
+.tab {
+  padding:        8px 20px;
+  border:         1px solid transparent;
+  border-radius:  var(--radius-sm);
+  cursor:         pointer;
+  font-family:    var(--font-display);
+  font-size:      11px;
+  letter-spacing: 1px;
+  transition:     var(--transition);
+  background:     transparent;
+  color:          #556677;
+}
+
+.tab.active {
+  border-color: rgba(0, 255, 200, 0.25);
+  color:        var(--accent);
+  background:   var(--accent-dim);
+}
+
+.tab:hover:not(.active) {
+  color:        #778899;
+  border-color: #1a2a3a;
+}
+
+/* ==============================
+   Step Progress Dots
+   ============================== */
+
+.step-dot {
+  width:          36px;
+  height:         36px;
+  border-radius:  50%;
+  background:     #111827;
+  border:         1px solid #1f2d3d;
+  display:        flex;
+  align-items:    center;
+  justify-content: center;
+  font-size:      16px;
+  margin:         0 auto 6px;
+  transition:     var(--transition);
+}
+
+.step-dot.active {
+  background:   rgba(0, 255, 200, 0.1) !important;
+  border-color: var(--accent)          !important;
+  box-shadow:   0 0 12px var(--accent);
+  color:        var(--accent);
+}
+
+.step-dot.done {
+  background:   rgba(0, 119, 85, 0.2) !important;
+  border-color: #007755               !important;
+  color:        #00bb88;
+}
+
+/* ==============================
+   Spinner
+   ============================== */
+
+.spinner {
+  width:        48px;
+  height:       48px;
+  border:       3px solid #0a1a2a;
+  border-top:   3px solid var(--accent);
+  border-radius: 50%;
+  animation:    spin 0.8s linear infinite;
+  margin:       0 auto;
+}
+
+/* ==============================
+   Pulse Dot
+   ============================== */
+
+.pulse-dot {
+  width:         8px;
+  height:        8px;
+  border-radius: 50%;
+  background:    var(--accent);
+  animation:     dotPulse 1.2s infinite ease-in-out;
+}
+
+/* ==============================
+   Result Row
+   ============================== */
+
+.result-row {
+  border-bottom: 1px solid rgba(0, 255, 200, 0.08);
+  padding:       14px 0;
+  animation:     fadeUp 0.4s ease;
+}
+
+.result-row:last-child {
+  border-bottom: none;
+}
+
+/* ==============================
+   Status Badge
+   ============================== */
+
+.status-badge {
+  font-size:      10px;
+  padding:        3px 10px;
+  border-radius:  var(--radius-sm);
+  letter-spacing: 1px;
+  font-family:    var(--font-display);
+}
+
+.status-badge.certified {
+  background: rgba(0, 255, 200, 0.1);
+  color:      var(--accent);
+  border:     1px solid rgba(0, 255, 200, 0.3);
+}
+
+.status-badge.flagged {
+  background: rgba(255, 68, 102, 0.1);
+  color:      var(--danger);
+  border:     1px solid rgba(255, 68, 102, 0.3);
+}
+
+/* ==============================
+   Hex Background
+   ============================== */
+
+.hex-bg {
+  position:       absolute;
+  top:            0;
+  left:           0;
+  width:          100%;
+  height:         100%;
+  opacity:        0.05;
+  pointer-events: none;
+  z-index:        0;
+}
+
+/* ==============================
+   Scanline Effect
+   ============================== */
+
+.scanline {
+  position:   absolute;
+  left:       0;
+  right:      0;
+  height:     3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent),
+    #0af,
+    transparent
+  );
+  animation:  scan 2s linear infinite;
+  z-index:    10;
+  box-shadow: 0 0 18px var(--accent);
+}
+
+/* ==============================
+   Upload Zone
+   ============================== */
+
+.upload-zone {
+  padding:       40px;
+  text-align:    center;
+  border-radius: var(--radius-lg);
+  border:        1px solid var(--border-color);
+  background:    var(--bg-card);
+  cursor:        pointer;
+  position:      relative;
+  overflow:      hidden;
+  transition:    var(--transition);
+}
+
+.upload-zone:hover {
+  border-color: var(--accent);
+  background:   rgba(0, 255, 200, 0.05);
+}
+
+.upload-zone.dragging {
+  border-color: var(--accent);
+  background:   rgba(0, 255, 200, 0.05);
+  box-shadow:   0 0 20px rgba(0, 255, 200, 0.1);
+}
+
+.upload-zone.has-file {
+  border-color: rgba(0, 255, 200, 0.3);
+  cursor:       default;
+}
+
+/* ==============================
+   Originality Bar
+   ============================== */
+
+.origin-bar-track {
+  background:    #0a1520;
+  border-radius: var(--radius-sm);
+  height:        6px;
+  overflow:      hidden;
+}
+
+.origin-bar-fill {
+  height:        100%;
+  border-radius: var(--radius-sm);
+  transition:    width 1s ease;
+}
+
+.origin-bar-fill.high {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.origin-bar-fill.mid {
+  background: var(--warning);
+  box-shadow: 0 0 8px var(--warning);
+}
+
+.origin-bar-fill.low {
+  background: var(--danger);
+  box-shadow: 0 0 8px var(--danger);
+}
+
+/* ==============================
+   Utility Classes
+   ============================== */
+
+.fade-up {
+  animation: fadeUp 0.5s ease both;
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease both;
+}
+
+.glow-card {
+  animation: glow 2s infinite ease-in-out;
+}
+
+/* ==============================
+   Layout Utilities
+   ============================== */
+
+.two-col {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   24px;
+}
+
+.flex-col {
+  display:        flex;
+  flex-direction: column;
+  gap:            16px;
+}
+
+.flex-between {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     flex-start;
+}
+
+.flex-center {
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
+}
+
+/* ==============================
+   Section Label
+   ============================== */
+
+.section-label {
+  font-size:      10px;
+  color:          var(--accent);
+  letter-spacing: 2px;
+  margin-bottom:  12px;
+  font-family:    var(--font-display);
+}
+
+/* ==============================
+   Responsive — Mobile
+   ============================== */
+
+@media (max-width: 640px) {
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  header {
+    padding: 16px 20px !important;
+  }
+
+  main {
+    padding: 20px !important;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost {
+    font-size: 11px;
+    padding:   10px 16px;
+  }
+
+  .upload-zone {
+    padding: 24px;
+  }
+
+}
+
+/* ==============================
+   Responsive — Tablet
+   ============================== */
+
+@media (max-width: 768px) {
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* ==============================
+   ArtChain — Global Styles
+What each section does
+
+index.css
+│
+├── Google Fonts Import
+│   └── Orbitron + Share Tech Mono
+│
+├── CSS Variables (:root)
+│   ├── colors      → bg, accent, danger, warning
+│   ├── text        → primary, muted, dim
+│   ├── fonts       → display, mono, body
+│   ├── spacing     → radius sizes
+│   └── transitions → default transition
+│
+├── Reset
+│   └── box-sizing, margin, padding
+│
+├── Scrollbar styles
+│   └── custom thin green scrollbar
+│
+├── Selection styles
+│   └── green highlight on text select
+│
+├── Animations
+│   ├── scan        → scanline effect
+│   ├── pulse       → blinking dots
+│   ├── fadeUp      → slide up on appear
+│   ├── fadeIn      → fade in
+│   ├── spin        → spinner rotation
+│   ├── glow        → pulsing glow
+│   ├── dotPulse    → bouncing dots
+│   └── slideIn     → slide from left
+│
+├── Components
+│   ├── .card           → glass card
+│   ├── .btn-primary    → green gradient button
+│   ├── .btn-secondary  → outline button
+│   ├── .btn-ghost      → ghost button
+│   ├── .tab            → navigation tab
+│   ├── .step-dot       → progress dot
+│   ├── .spinner        → loading spinner
+│   ├── .pulse-dot      → pulse animation dot
+│   ├── .result-row     → history list row
+│   ├── .status-badge   → certified/flagged badge
+│   ├── .hex-bg         → hexagon background
+│   ├── .scanline       → drag scanline effect
+│   ├── .upload-zone    → file drop area
+│   └── .origin-bar     → score progress bar
+│
+├── Utility Classes
+│   ├── .fade-up        → fadeUp animation
+│   ├── .fade-in        → fadeIn animation
+│   ├── .glow-card      → glowing card
+│   ├── .two-col        → 2 column grid
+│   ├── .flex-col       → flex column
+│   ├── .flex-between   → space between
+│   ├── .flex-center    → centered flex
+│   └── .section-label  → small green label
+│
+└── Responsive
+    ├── mobile  → max-width 640px
+    └── tablet  → max-width 768px
+```
+
+---
+
+### Quick copy guide
+
+| File | Paste into |
+|---|---|
+| `index.css` | `src/index.css` |
+
+---
+
+### Location reminder
+```
+frontend/
+└── src/
+    ├── App.jsx
+    ├── main.jsx
+    ├── index.css      ← HERE
+    ├── components/
+    └── pages/
+*/

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <!-- ==============================
+         Meta Tags
+         ============================== -->
+
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <meta name="description"
+          content="ArtChain — AI-powered copyright verification platform. Upload your artwork and verify originality on the blockchain." />
+    <meta name="keywords"
+          content="copyright, NFT, blockchain, art verification, AI, ethereum, originality" />
+    <meta name="author"
+          content="ArtChain Protocol" />
+    <meta name="theme-color"
+          content="#050a0f" />
+
+    <!-- Open Graph -->
+    <meta property="og:title"
+          content="ArtChain — AI Copyright Verification" />
+    <meta property="og:description"
+          content="Verify your artwork's originality using AI and store the result on the Ethereum blockchain." />
+    <meta property="og:type"
+          content="website" />
+    <meta property="og:url"
+          content="https://artchain.protocol" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card"
+          content="summary_large_image" />
+    <meta name="twitter:title"
+          content="ArtChain — AI Copyright Verification" />
+    <meta name="twitter:description"
+          content="Verify your artwork's originality using AI and store on Ethereum blockchain." />
+
+    <!-- ==============================
+         Favicon
+         SVG emoji — no file needed
+         ============================== -->
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>"
+    />
+
+    <!-- ==============================
+         Google Fonts Preconnect
+         Speeds up font loading
+         ============================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com" />
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin />
+
+    <!-- ==============================
+         Fonts
+         Orbitron     — display font
+         Share Tech Mono — mono font
+         ============================== -->
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+    />
+
+    <!-- ==============================
+         Page Title
+         ============================== -->
+
+    <title>ArtChain — AI Copyright Verification</title>
+
+  </head>
+
+  <body>
+
+    <!-- ==============================
+         Root Mount Point
+         React renders here
+         ============================== -->
+
+    <div id="root"></div>
+
+    <!-- ==============================
+         React Entry Point
+         Vite resolves this import
+         ============================== -->
+
+    <script type="module" src="/src/main.jsx"></script>
+
+  </body>
+
+</html>
+```
+<!--
+---
+
+### What each part does
+```
+index.html
+│
+├── <head>
+│   │
+│   ├── Meta Tags
+│   │   ├── charset      → UTF-8 encoding
+│   │   ├── viewport     → mobile responsive
+│   │   ├── description  → SEO description
+│   │   ├── keywords     → SEO keywords
+│   │   ├── author       → ArtChain Protocol
+│   │   └── theme-color  → browser tab color
+│   │                       #050a0f dark
+│   │
+│   ├── Open Graph
+│   │   ├── og:title
+│   │   ├── og:description
+│   │   ├── og:type
+│   │   └── og:url
+│   │
+│   ├── Twitter Card
+│   │   ├── twitter:card
+│   │   ├── twitter:title
+│   │   └── twitter:description
+│   │
+│   ├── Favicon
+│   │   └── SVG emoji ◈
+│   │       no file needed
+│   │
+│   ├── Font Preconnect
+│   │   ├── fonts.googleapis.com
+│   │   └── fonts.gstatic.com
+│   │       speeds up loading
+│   │
+│   ├── Google Fonts
+│   │   ├── Orbitron 400/700/900
+│   │   └── Share Tech Mono
+│   │
+│   └── <title>
+│       └── ArtChain — AI Copyright Verification
+│
+└── <body>
+    │
+    ├── <div id="root">
+    │   └── React mounts here
+    │       starts empty
+    │       filled by main.jsx
+    │
+    └── <script type="module">
+        └── loads main.jsx
+            Vite handles bundling
+```
+
+---
+
+### How the loading flow works
+```
+Browser opens index.html
+        ↓
+Loads Google Fonts
+        ↓
+Finds <div id="root">  ← empty
+        ↓
+Loads /src/main.jsx
+        ↓
+React starts up
+        ↓
+App renders into <div id="root">
+        ↓
+Page is visible
+```
+
+---
+
+### Open Graph preview
+```
+When shared on social media:
+
+┌──────────────────────────────────┐
+│                                  │
+│   ArtChain — AI Copyright        │
+│   Verification                   │
+│                                  │
+│   Verify your artwork's          │
+│   originality using AI and       │
+│   store the result on the        │
+│   Ethereum blockchain.           │
+│                                  │
+└──────────────────────────────────┘
+  artchain.protocol
+```
+
+---
+
+### Quick copy guide
+
+| File | Paste into |
+|---|---|
+| `index.html` | `frontend/index.html` |
+
+---
+
+### Location reminder
+```
+frontend/
+├── index.html        ← HERE
+├── vite.config.js
+├── package.json
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── index.css
+    ├── components/
+    └── pages/ ===========================-->

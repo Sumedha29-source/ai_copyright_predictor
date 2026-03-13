@@ -1,0 +1,52 @@
+{
+  "name": "facinet-sdk",
+  "version": "1.0.0",
+  "description": "ArtChain SDK — Copyright Verification for Developers",
+  "main":    "src/index.js",
+  "private": false,
+
+  "exports": {
+    ".": {
+      "require": "./src/index.js",
+      "import":  "./src/index.js"
+    }
+  },
+
+  "scripts": {
+    "test":       "mocha test/**/*.test.js --timeout 10000",
+    "test:watch": "mocha test/**/*.test.js --watch",
+    "coverage":   "nyc mocha test/**/*.test.js",
+    "lint":       "eslint src --ext .js",
+    "prepublish": "npm test"
+  },
+
+  "keywords": [
+    "artchain",
+    "copyright",
+    "blockchain",
+    "ethereum",
+    "NFT",
+    "AI",
+    "verification",
+    "originality"
+  ],
+
+  "dependencies": {
+    "dotenv":  "^16.4.1",
+    "ethers":  "^6.11.0"
+  },
+
+  "devDependencies": {
+    "chai":   "^4.3.10",
+    "eslint": "^8.57.0",
+    "mocha":  "^10.3.0",
+    "nyc":    "^15.1.0",
+    "sinon":  "^17.0.0"
+  },
+
+  "engines": {
+    "node": ">=18.0.0"
+  },
+
+  "license": "MIT"
+}

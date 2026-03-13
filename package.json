@@ -1,0 +1,47 @@
+{
+  "name": "artchain",
+  "version": "1.0.0",
+  "description": "ArtChain — AI Copyright Verification Platform",
+  "private": true,
+  "scripts": {
+    "frontend": "cd frontend  && npm run dev",
+    "backend": "cd backend   && npm run dev",
+    "contracts": "cd contracts && npm run node",
+    "install:all": "npm run install:frontend && npm run install:backend && npm run install:contracts && npm run install:sdk",
+    "install:frontend": "cd frontend  && npm install",
+    "install:backend": "cd backend   && npm install",
+    "install:contracts": "cd contracts && npm install",
+    "install:sdk": "cd sdk       && npm install",
+    "test:all": "npm run test:backend && npm run test:contracts && npm run test:sdk",
+    "test:backend": "cd backend   && npm test",
+    "test:contracts": "cd contracts && npm test",
+    "test:sdk": "cd sdk       && npm test",
+    "build": "cd frontend && npm run build",
+    "lint:all": "npm run lint:frontend && npm run lint:backend && npm run lint:sdk",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend  && npm run lint",
+    "lint:sdk": "cd sdk      && npm run lint"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.6.1",
+    "dotenv": "^17.3.1"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.0.9",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.3",
+    "@types/node": "^22.8.5",
+    "forge-std": "github:foundry-rs/forge-std#v1.9.4",
+    "hardhat": "^3.1.12",
+    "typescript": "^5.7.3",
+    "viem": "^2.43.0"
+  }
+}
