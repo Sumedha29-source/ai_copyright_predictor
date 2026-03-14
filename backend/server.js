@@ -2,7 +2,7 @@
 // server.js — Express Entry Point
 require("dotenv").config();
 
-const paymentRoutes = require("./routes/paymentRoutes");
+const paymentRoutes = require("./routes/paymentroutes.js");
 const { x402 }      = require("./middleware/x402");
 const express     = require("express");
 const cors        = require("cors");
@@ -11,8 +11,8 @@ const morgan      = require("morgan");
 const path        = require("path");
 const rateLimit   = require("express-rate-limit");
 
-const verifyRoutes  = require("./routes/verifyRoutes");
-const historyRoutes = require("./routes/historyRoutes");
+const verifyRoutes  = require("./routes/verifyroutes");
+const historyRoutes = require("./routes/historyroutes");
 
 const {
   errorHandler,
@@ -251,17 +251,17 @@ app.get("/api/health", (req, res) => {
 app.use(
   "/api/verify",  
   verifyLimiter, 
-  x402, verifyRoutes);
+  x402, verifyroutes);
 
 
 app.use(
   "/api/history",
-  historyRoutes
+  historyroutes
 );
 
 app.use(
   "/api/payment",
-   paymentRoutes);
+   paymentroutes);
 
 // ==============================
 // Not Found Handler
