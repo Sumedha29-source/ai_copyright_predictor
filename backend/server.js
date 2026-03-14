@@ -2,7 +2,7 @@
 // server.js — Express Entry Point
 require("dotenv").config();
 
-const paymentRoutes = require("./routes/paymentroutes.js");
+const paymentRoutes = require("./routes/paymentRoutes.js");
 const { x402 }      = require("./middleware/x402");
 const express     = require("express");
 const cors        = require("cors");

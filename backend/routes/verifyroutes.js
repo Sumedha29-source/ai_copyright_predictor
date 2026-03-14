@@ -1,8 +1,8 @@
 // backend/routes/verifyRoutes.js
 import express              from "express";
-import { verifyArtwork, checkHash } from "../../controllers/verifyController.js";
-import { uploadMiddleware }  from "../../middleware/upload.js";
-import { errorHandler }      from "../../middleware/errorhandler.js";
+import { verifyArtwork, checkHash } from "../controllers/verifyController.js";
+import { uploadMiddleware }  from "../middleware/upload.js";
+import { errorHandler }      from "../middleware/errorhandler.js";
 
 const router = express.Router();
 
