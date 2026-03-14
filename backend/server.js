@@ -2,26 +2,20 @@
 // server.js — Express Entry Point
 require("dotenv").config();
 
-const paymentRoutes = require("./routes/paymentRoutes");
-const { x402 }      = require("./middleware/x402");
-const express     = require("express");
-const cors        = require("cors");
-const helmet      = require("helmet");
-const morgan      = require("morgan");
-const path        = require("path");
-const rateLimit   = require("express-rate-limit");
+const express       = require("express");
+const cors          = require("cors");
+const helmet        = require("helmet");
+const morgan        = require("morgan");
+const path          = require("path");
+const rateLimit     = require("express-rate-limit");
 
 const verifyRoutes  = require("./routes/verifyRoutes");
 const historyRoutes = require("./routes/historyRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+const { x402 }      = require("./middleware/x402");
 
-const {
-  errorHandler,
-  notFoundHandler,
-} = require("./middleware/errorhandler");
-
-const {
-  cleanUpOldFiles,
-} = require("./middleware/upload");
+const { errorHandler, notFoundHandler } = require("./middleware/errorhandler");
+const { cleanUpOldFiles }               = require("./middleware/upload");
 
 // ==============================
 // Environment Variables
@@ -37,22 +31,10 @@ const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
 
 const app = express();
 
-// ==============================
-// Trust Proxy
-//
-// Required when running behind
-// a reverse proxy like nginx,
-// Railway, or Vercel.
-// ==============================
-
 app.set("trust proxy", 1);
 
 // ==============================
 // Security — Helmet
-//
-// Sets secure HTTP headers.
-// Protects against common
-// web vulnerabilities.
 // ==============================
 
 app.use(
@@ -64,135 +46,84 @@ app.use(
 
 // ==============================
 // CORS
-//
-// Allows requests only from
-// the frontend CLIENT_URL.
 // ==============================
 
 app.use(
   cors({
-    origin:      CLIENT_URL,
-    methods:     ["GET", "POST", "DELETE", "OPTIONS"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-    ],
-    credentials: true,
-    maxAge:      86400,
+    origin:         CLIENT_URL,
+    methods:        ["GET", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    credentials:    true,
+    maxAge:         86400,
   })
 );
 
 // ==============================
 // Rate Limiting
-//
-// Limits each IP to 100
-// requests per 15 minutes.
-// Prevents abuse.
 // ==============================
 
 const limiter = rateLimit({
-  windowMs:         15 * 60 * 1000,
-  max:              100,
-  standardHeaders:  true,
-  legacyHeaders:    false,
+  windowMs:               15 * 60 * 1000,
+  max:                    100,
+  standardHeaders:        true,
+  legacyHeaders:          false,
   skipSuccessfulRequests: false,
-
   message: {
     success: false,
     error:   "Too many requests. Please wait 15 minutes and try again.",
     code:    "RATE_LIMIT_EXCEEDED",
   },
-
   handler: (req, res, next, options) => {
-    console.warn(
-      `[RATE LIMIT] IP ${req.ip} exceeded limit on ${req.path}`
-    );
+    console.warn(`[RATE LIMIT] IP ${req.ip} exceeded limit on ${req.path}`);
     res.status(429).json(options.message);
   },
 });
 
 app.use(limiter);
 
-// ==============================
-// Stricter Rate Limit
-// for Verify Endpoint
-//
-// Limits verify to 10 requests
-// per 15 minutes per IP.
-// AI + blockchain calls are
-// expensive to process.
-// ==============================
-
 const verifyLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max:      10,
+  windowMs:        15 * 60 * 1000,
+  max:             10,
   standardHeaders: true,
   legacyHeaders:   false,
-
   message: {
     success: false,
     error:   "Too many verification requests. Please wait 15 minutes.",
     code:    "VERIFY_RATE_LIMIT_EXCEEDED",
   },
-
   handler: (req, res, next, options) => {
-    console.warn(
-      `[RATE LIMIT] IP ${req.ip} exceeded verify limit`
-    );
+    console.warn(`[RATE LIMIT] IP ${req.ip} exceeded verify limit`);
     res.status(429).json(options.message);
   },
 });
 
 // ==============================
 // Request Logging — Morgan
-//
-// dev  → colorized + concise
-// prod → combined Apache format
 // ==============================
 
-app.use(
-  morgan(NODE_ENV === "production" ? "combined" : "dev")
-);
+app.use(morgan(NODE_ENV === "production" ? "combined" : "dev"));
 
 // ==============================
 // Body Parsers
 // ==============================
 
-// JSON bodies up to 10MB
-app.use(express.json({
-  limit: "10mb",
-}));
-
-// URL-encoded bodies
-app.use(express.urlencoded({
-  extended: true,
-  limit:    "10mb",
-}));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // ==============================
 // Static Files
-//
-// Serves uploaded files from
-// the uploads/ directory.
 // ==============================
 
 app.use(
   "/uploads",
-  express.static(
-    path.join(__dirname, "uploads"),
-    {
-      maxAge:  "1d",
-      etag:    true,
-    }
-  )
+  express.static(path.join(__dirname, "uploads"), {
+    maxAge: "1d",
+    etag:   true,
+  })
 );
 
 // ==============================
 // Health Check
-//
-// GET /
-// Quick check that server is up
 // ==============================
 
 app.get("/", (req, res) => {
@@ -204,38 +135,27 @@ app.get("/", (req, res) => {
   });
 });
 
-// ==============================
-// Detailed Health Check
-//
-// GET /api/health
-// Returns server stats
-// ==============================
-
 app.get("/api/health", (req, res) => {
-
-  const uptime  = process.uptime();
-  const memory  = process.memoryUsage();
+  const uptime = process.uptime();
+  const memory = process.memoryUsage();
 
   res.status(200).json({
     success:   true,
     status:    "healthy",
     timestamp: new Date().toISOString(),
-
     server: {
-      uptime:    `${Math.floor(uptime / 60)}m ${Math.floor(uptime % 60)}s`,
-      uptimeSec: uptime,
+      uptime:      `${Math.floor(uptime / 60)}m ${Math.floor(uptime % 60)}s`,
+      uptimeSec:   uptime,
       nodeVersion: process.version,
-      env:       NODE_ENV,
-      port:      PORT,
+      env:         NODE_ENV,
+      port:        PORT,
     },
-
     memory: {
       heapUsed:  `${Math.round(memory.heapUsed  / 1024 / 1024)}MB`,
       heapTotal: `${Math.round(memory.heapTotal / 1024 / 1024)}MB`,
       rss:       `${Math.round(memory.rss       / 1024 / 1024)}MB`,
       external:  `${Math.round(memory.external  / 1024 / 1024)}MB`,
     },
-
     services: {
       openai:     !!process.env.OPENAI_API_KEY,
       blockchain: !!process.env.ETHEREUM_RPC_URL,
@@ -248,38 +168,15 @@ app.get("/api/health", (req, res) => {
 // API Routes
 // ==============================
 
-app.use(
-  "/api/verify",  
-  verifyLimiter, 
-  x402, verifyRoutes);
-
-
-app.use(
-  "/api/history",
-  historyRoutes
-);
-
-app.use(
-  "/api/payment",
-   paymentRoutes);
+app.use("/api/verify",  verifyLimiter, x402, verifyRoutes);
+app.use("/api/history", historyRoutes);
+app.use("/api/payment", paymentRoutes);
 
 // ==============================
-// Not Found Handler
-//
-// Catches unknown routes.
-// Must be AFTER all routes.
+// Not Found + Error Handlers
 // ==============================
 
 app.use(notFoundHandler);
-
-// ==============================
-// Global Error Handler
-//
-// Catches all errors from
-// next(error) calls.
-// Must be registered LAST.
-// ==============================
-
 app.use(errorHandler);
 
 // ==============================
@@ -287,73 +184,50 @@ app.use(errorHandler);
 // ==============================
 
 const server = app.listen(PORT, () => {
-
   console.log("\n==============================");
   console.log("  ArtChain API Server");
   console.log("==============================\n");
-
   console.log(`  Status:   Running ✓`);
   console.log(`  Port:     ${PORT}`);
   console.log(`  Env:      ${NODE_ENV}`);
   console.log(`  Client:   ${CLIENT_URL}`);
   console.log(`  Node:     ${process.version}`);
   console.log("");
-
   console.log("  Endpoints:");
-  console.log(`  GET  /`);
-  console.log(`  GET  /api/health`);
-  console.log(`  POST /api/verify`);
-  console.log(`  GET  /api/verify/:hash`);
-  console.log(`  GET  /api/history`);
-  console.log(`  GET  /api/history/search`);
-  console.log(`  GET  /api/history/:id`);
+  console.log(`  GET    /`);
+  console.log(`  GET    /api/health`);
+  console.log(`  POST   /api/verify`);
+  console.log(`  GET    /api/verify/:hash`);
+  console.log(`  GET    /api/history`);
+  console.log(`  GET    /api/history/search`);
+  console.log(`  GET    /api/history/:id`);
   console.log(`  DELETE /api/history/:id`);
   console.log("");
-
   console.log("  Services:");
-  console.log(`  OpenAI:     ${process.env.OPENAI_API_KEY     ? "✓ configured" : "✗ missing"}`);
-  console.log(`  Blockchain: ${process.env.ETHEREUM_RPC_URL   ? "✓ configured" : "✗ missing"}`);
-  console.log(`  Contract:   ${process.env.CONTRACT_ADDRESS   ? "✓ configured" : "✗ missing"}`);
-  console.log("");
-
-  console.log("==============================\n");
-
-  // ==============================
-  // Clean up old files on start
-  // ==============================
+  console.log(`  OpenAI:     ${process.env.OPENAI_API_KEY   ? "✓ configured" : "✗ missing"}`);
+  console.log(`  Blockchain: ${process.env.ETHEREUM_RPC_URL ? "✓ configured" : "✗ missing"}`);
+  console.log(`  Contract:   ${process.env.CONTRACT_ADDRESS ? "✓ configured" : "✗ missing"}`);
+  console.log("\n==============================\n");
 
   cleanUpOldFiles();
-
-  // ==============================
-  // Schedule cleanup every 6hrs
-  // ==============================
 
   setInterval(() => {
     console.log("[CLEANUP] Running scheduled file cleanup...");
     cleanUpOldFiles(6 * 60 * 60 * 1000);
   }, 6 * 60 * 60 * 1000);
-
 });
 
 // ==============================
 // Graceful Shutdown
-//
-// Handles SIGTERM + SIGINT
-// signals cleanly.
-// Waits for in-flight requests
-// before closing.
 // ==============================
 
 const shutdown = (signal) => {
   console.log(`\n[SERVER] ${signal} received — shutting down...`);
-
   server.close(() => {
     console.log("[SERVER] All connections closed.");
     console.log("[SERVER] Goodbye ✓\n");
     process.exit(0);
   });
-
-  // Force close after 10 seconds
   setTimeout(() => {
     console.error("[SERVER] Forced shutdown after timeout.");
     process.exit(1);
@@ -363,29 +237,16 @@ const shutdown = (signal) => {
 process.on("SIGTERM", () => shutdown("SIGTERM"));
 process.on("SIGINT",  () => shutdown("SIGINT"));
 
-// ==============================
-// Unhandled Promise Rejections
-// ==============================
-
 process.on("unhandledRejection", (reason, promise) => {
   console.error("[SERVER] Unhandled rejection at:", promise);
   console.error("[SERVER] Reason:", reason);
 });
-
-// ==============================
-// Uncaught Exceptions
-// ==============================
 
 process.on("uncaughtException", (err) => {
   console.error("[SERVER] Uncaught exception:", err.message);
   console.error(err.stack);
   process.exit(1);
 });
-
-// ==============================
-// Export App
-// For testing purposes
-// ==============================
 
 module.exports = app;
 // ```
