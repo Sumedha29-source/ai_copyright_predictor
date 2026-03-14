@@ -406,11 +406,6 @@ export default function HistoryTab() {
     </div>
   );
 }
-```
-
----
-
-### What each part does
 //
 // HistoryTab.jsx
 //
@@ -515,4 +510,3 @@ export default function HistoryTab() {
 //         ├── OriginBar.jsx
 //         └── HistoryTab.jsx     <-- HERE
 //
-```

@@ -146,34 +146,3 @@ export default function HexGrid() {
     </svg>
   );
 }
-// ---
-//
-// What each part does
-//
-// HexGrid.jsx
-// svg wrapper
-//   className="hex-bg"   → positioned absolute
-//   viewBox              → 800x600 canvas
-//   aria-hidden          → hidden from screen readers
-//
-// 80 hexagons (10 cols x 8 rows)
-//   col = i % 10         → column position
-//   row = Math.floor     → row position
-//   x offset             → honeycomb pattern
-//     odd rows shift right by 45px
-//   opacity calculation
-//     center hexagons brighter
-//   polygon points
-//     6 corner coordinates
-//
-// 5 glowing center hexagons
-//   slightly brighter stroke
-//   subtle fill
-//   positioned in center
-//
-// corner accent lines
-//   top left corner
-//   top right corner
-//   bottom left corner
-//   bottom right corner
-

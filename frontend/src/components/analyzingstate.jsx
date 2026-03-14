@@ -162,11 +162,6 @@ export default function AnalyzingState({ phase }) {
     </div>
   );
 }
-```
-
----
-
-### What each part does
 // AnalyzingState.jsx
 // 
 // - props
@@ -196,4 +191,4 @@ export default function AnalyzingState({ phase }) {
 //     - Waiting for confirmation
 //   - network info card
 //     - Ethereum Sepolia Testnet
-```
+

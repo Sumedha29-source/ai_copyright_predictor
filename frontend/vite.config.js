@@ -128,171 +128,171 @@ export default defineConfig({
     ],
   },
 });
-```
+// ```
 
----
+// ---
 
-### What each section does
-```
-```
-vite.config.js
-│
-├── plugins
-│   └── react()
-│       enables JSX transforms
-│       fast refresh in dev
-│
-├── resolve.alias
-│   └── @ → ./src
-│       import "@/components/Header"
-│       instead of
-│       import "../../components/Header"
-│
-├── server
-│   ├── port  → 3000
-│   ├── open  → opens browser on start
-│   ├── host  → accessible on network
-│   └── proxy
-│       └── /api → localhost:5000
-│           ├── avoids CORS errors
-│           ├── logs proxy requests
-│           └── works in dev only
-│
-├── preview
-│   └── port 3000
-│       used after npm run build
-│
-├── build
-│   ├── outDir    → dist/
-│   ├── sourcemap → for debugging
-│   ├── minify    → esbuild (fast)
-│   ├── target    → esnext
-│   └── manualChunks
-│       ├── react  → react + react-dom
-│       └── router → react-router-dom
-│
-├── css
-│   └── devSourcemap → CSS debugging
-│
-├── envPrefix
-│   └── VITE_
-│       only vars starting with
-│       VITE_ are exposed to frontend
-│
-└── optimizeDeps
-    └── pre-bundles react + router
-        makes cold start faster
-```
+// ### What each section does
+// ```
+// ```
+// vite.config.js
+// │
+// ├── plugins
+// │   └── react()
+// │       enables JSX transforms
+// │       fast refresh in dev
+// │
+// ├── resolve.alias
+// │   └── @ → ./src
+// │       import "@/components/Header"
+// │       instead of
+// │       import "../../components/Header"
+// │
+// ├── server
+// │   ├── port  → 3000
+// │   ├── open  → opens browser on start
+// │   ├── host  → accessible on network
+// │   └── proxy
+// │       └── /api → localhost:5000
+// │           ├── avoids CORS errors
+// │           ├── logs proxy requests
+// │           └── works in dev only
+// │
+// ├── preview
+// │   └── port 3000
+// │       used after npm run build
+// │
+// ├── build
+// │   ├── outDir    → dist/
+// │   ├── sourcemap → for debugging
+// │   ├── minify    → esbuild (fast)
+// │   ├── target    → esnext
+// │   └── manualChunks
+// │       ├── react  → react + react-dom
+// │       └── router → react-router-dom
+// │
+// ├── css
+// │   └── devSourcemap → CSS debugging
+// │
+// ├── envPrefix
+// │   └── VITE_
+// │       only vars starting with
+// │       VITE_ are exposed to frontend
+// │
+// └── optimizeDeps
+//     └── pre-bundles react + router
+//         makes cold start faster
+// ```
 
-```
+// ```
 
-### How the proxy works
-```
-```
-Frontend fetch("/api/verify")
-        ↓
-Vite dev server (port 3000)
-        ↓
-Proxy intercepts /api/*
-        ↓
-Forwards to backend (port 5000)
-        ↓
-backend handles request
-        ↓
-Response sent back to frontend
+// ### How the proxy works
+// ```
+// ```
+// Frontend fetch("/api/verify")
+//         ↓
+// Vite dev server (port 3000)
+//         ↓
+// Proxy intercepts /api/*
+//         ↓
+// Forwards to backend (port 5000)
+//         ↓
+// backend handles request
+//         ↓
+// Response sent back to frontend
 
-No CORS errors in development ✅
-```
+// No CORS errors in development ✅
+// ```
 
-```
+// ```
 
-### How path alias works
-```
-```
-Without alias:
-import Header from "../../components/Header.jsx"
+// ### How path alias works
+// ```
+// ```
+// Without alias:
+// import Header from "../../components/Header.jsx"
 
-With alias:
-import Header from "@/components/Header.jsx"
+// With alias:
+// import Header from "@/components/Header.jsx"
 
-@ always resolves to src/
-no matter how deep you are
-```
+// @ always resolves to src/
+// no matter how deep you are
+// ```
 
-```
+// ```
 
-### What proxy logs look like
-```
-```
-[PROXY] → POST /api/verify
-[PROXY] ← 200 /api/verify
+// ### What proxy logs look like
+// ```
+// ```
+// [PROXY] → POST /api/verify
+// [PROXY] ← 200 /api/verify
 
-[PROXY] → GET /api/history
-[PROXY] ← 200 /api/history
+// [PROXY] → GET /api/history
+// [PROXY] ← 200 /api/history
 
-[PROXY] Error: connect ECONNREFUSED
-  → backend is not running
-```
+// [PROXY] Error: connect ECONNREFUSED
+//   → backend is not running
+// ```
 
-```
+// ```
 
-### Build output
-```
-```
-After npm run build:
+// ### Build output
+// ```
+// ```
+// After npm run build:
 
-frontend/
-└── dist/
-    ├── index.html
-    └── assets/
-        ├── react-[hash].js      ← react chunk
-        ├── router-[hash].js     ← router chunk
-        ├── index-[hash].js      ← app code
-        └── index-[hash].css     ← styles
-```
+// frontend/
+// └── dist/
+//     ├── index.html
+//     └── assets/
+//         ├── react-[hash].js      ← react chunk
+//         ├── router-[hash].js     ← router chunk
+//         ├── index-[hash].js      ← app code
+//         └── index-[hash].css     ← styles
+// ```
 
-```
+// ```
 
-### Environment variables
-```
-```
-.env file:
+// ### Environment variables
+// ```
+// ```
+// .env file:
 
-VITE_API_URL=https://api.artchain.io
-VITE_NETWORK=sepolia
+// VITE_API_URL=https://api.artchain.io
+// VITE_NETWORK=sepolia
 
-In component:
+// In component:
 
-const apiUrl = import.meta.env.VITE_API_URL;
-const network = import.meta.env.VITE_NETWORK;
+// const apiUrl = import.meta.env.VITE_API_URL;
+// const network = import.meta.env.VITE_NETWORK;
 
-Never exposed to frontend:
+// Never exposed to frontend:
 
-OPENAI_API_KEY=sk-...   ← no VITE_ prefix
-PRIVATE_KEY=0x...       ← stays server-side
-```
+// OPENAI_API_KEY=sk-...   ← no VITE_ prefix
+// PRIVATE_KEY=0x...       ← stays server-side
+// ```
 
-```
+// ```
 
-### Quick copy guide
+// ### Quick copy guide
 
-| File | Paste into |
-```
-| `vite.config.js` | `frontend/vite.config.js` |
+// | File | Paste into |
+// ```
+// | `vite.config.js` | `frontend/vite.config.js` |
 
-```
+// ```
 
-### Location reminder
-```
-```
-frontend/
-├── index.html
-├── vite.config.js     ← HERE
-├── package.json
-└── src/
-    ├── main.jsx
-    ├── App.jsx
-    ├── index.css
-    ├── components/
-    └── pages/
-```
+// ### Location reminder
+// ```
+// ```
+// frontend/
+// ├── index.html
+// ├── vite.config.js     ← HERE
+// ├── package.json
+// └── src/
+//     ├── main.jsx
+//     ├── App.jsx
+//     ├── index.css
+//     ├── components/
+//     └── pages/
+// ```
