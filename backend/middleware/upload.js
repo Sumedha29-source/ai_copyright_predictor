@@ -271,131 +271,131 @@ module.exports = {
   ALLOWED_MIME_TYPES,
   ALLOWED_EXTENSIONS,
 };
-```
+// ```
 
----
+// ---
 
-### What each part does
-```
-```
-upload.js
-│
-├── ALLOWED_MIME_TYPES
-│   ├── image/jpeg
-│   ├── image/jpg
-│   ├── image/png
-│   ├── image/webp
-│   ├── image/svg+xml
-│   └── image/gif
-│
-├── ALLOWED_EXTENSIONS
-│   ├── .jpg .jpeg
-│   ├── .png
-│   ├── .webp
-│   ├── .svg
-│   └── .gif
-│
-├── MAX_FILE_SIZE
-│   └── 50MB (from .env)
-│
-├── UPLOAD_DIR
-│   └── uploads/ (from .env)
-│
-├── Directory creation
-│   └── creates uploads/ if missing
-│
-├── storage (diskStorage)
-│   ├── destination → uploads/
-│   └── filename
-│       ├── timestamp prefix
-│       ├── spaces → dashes
-│       ├── removes special chars
-│       └── lowercased
-│
-├── fileFilter
-│   ├── checks MIME type
-│   ├── checks file extension
-│   ├── both must pass
-│   └── rejects with INVALID_FILE_TYPE
-│
-├── uploadMiddleware (multer)
-│   ├── storage
-│   ├── fileFilter
-│   └── limits
-│       ├── fileSize  → 50MB
-│       ├── files     → 1
-│       ├── fields    → 10
-│       └── fieldSize → 1MB
-│
-├── uploadSingle()
-│   ├── wraps multer in Promise
-│   ├── field name "artwork"
-│   └── async/await friendly
-│
-├── uploadMultiple()
-│   ├── wraps multer in Promise
-│   ├── field name "artworks"
-│   └── max 5 files
-│
-├── cleanUpOldFiles()
-│   ├── reads uploads/ dir
-│   ├── checks file age
-│   └── deletes files > maxAgeMs
-│       default 24 hours
-│
-└── getFileInfo()
-    ├── originalName
-    ├── savedName
-    ├── path
-    ├── size / sizeKB / sizeMB
-    ├── mimeType
-    ├── extension
-    └── uploadedAt
-```
+// ### What each part does
+// ```
+// ```
+// upload.js
+// │
+// ├── ALLOWED_MIME_TYPES
+// │   ├── image/jpeg
+// │   ├── image/jpg
+// │   ├── image/png
+// │   ├── image/webp
+// │   ├── image/svg+xml
+// │   └── image/gif
+// │
+// ├── ALLOWED_EXTENSIONS
+// │   ├── .jpg .jpeg
+// │   ├── .png
+// │   ├── .webp
+// │   ├── .svg
+// │   └── .gif
+// │
+// ├── MAX_FILE_SIZE
+// │   └── 50MB (from .env)
+// │
+// ├── UPLOAD_DIR
+// │   └── uploads/ (from .env)
+// │
+// ├── Directory creation
+// │   └── creates uploads/ if missing
+// │
+// ├── storage (diskStorage)
+// │   ├── destination → uploads/
+// │   └── filename
+// │       ├── timestamp prefix
+// │       ├── spaces → dashes
+// │       ├── removes special chars
+// │       └── lowercased
+// │
+// ├── fileFilter
+// │   ├── checks MIME type
+// │   ├── checks file extension
+// │   ├── both must pass
+// │   └── rejects with INVALID_FILE_TYPE
+// │
+// ├── uploadMiddleware (multer)
+// │   ├── storage
+// │   ├── fileFilter
+// │   └── limits
+// │       ├── fileSize  → 50MB
+// │       ├── files     → 1
+// │       ├── fields    → 10
+// │       └── fieldSize → 1MB
+// │
+// ├── uploadSingle()
+// │   ├── wraps multer in Promise
+// │   ├── field name "artwork"
+// │   └── async/await friendly
+// │
+// ├── uploadMultiple()
+// │   ├── wraps multer in Promise
+// │   ├── field name "artworks"
+// │   └── max 5 files
+// │
+// ├── cleanUpOldFiles()
+// │   ├── reads uploads/ dir
+// │   ├── checks file age
+// │   └── deletes files > maxAgeMs
+// │       default 24 hours
+// │
+// └── getFileInfo()
+//     ├── originalName
+//     ├── savedName
+//     ├── path
+//     ├── size / sizeKB / sizeMB
+//     ├── mimeType
+//     ├── extension
+//     └── uploadedAt
+// ```
 
-```
+// ```
 
-### How filename is generated
-```
-```
-Original:  "My Sunset Art!@#.PNG"
-        ↓
-spaces → dashes:   "My-Sunset-Art!@#.PNG"
-        ↓
-remove specials:   "My-Sunset-Art.PNG"
-        ↓
-lowercase:         "my-sunset-art.png"
-        ↓
-add timestamp:     "1710000000000-my-sunset-art.png"
+// ### How filename is generated
+// ```
+// ```
+// Original:  "My Sunset Art!@#.PNG"
+//         ↓
+// spaces → dashes:   "My-Sunset-Art!@#.PNG"
+//         ↓
+// remove specials:   "My-Sunset-Art.PNG"
+//         ↓
+// lowercase:         "my-sunset-art.png"
+//         ↓
+// add timestamp:     "1710000000000-my-sunset-art.png"
 
-Result: uploads/1710000000000-my-sunset-art.png
-```
+// Result: uploads/1710000000000-my-sunset-art.png
+// ```
 
-```
+// ```
 
-### How fileFilter works
-```
-```
-File arrives with:
-  mimetype:  "image/png"
-  filename:  "sunset.png"
+// ### How fileFilter works
+// ```
+// ```
+// File arrives with:
+//   mimetype:  "image/png"
+//   filename:  "sunset.png"
 
-Check 1 — MIME type:
-  ALLOWED_MIME_TYPES.includes("image/png") → true ✓
+// Check 1 — MIME type:
+//   ALLOWED_MIME_TYPES.includes("image/png") → true ✓
 
-Check 2 — Extension:
-  path.extname("sunset.png") → ".png"
-  ALLOWED_EXTENSIONS.includes(".png") → true ✓
+// Check 2 — Extension:
+//   path.extname("sunset.png") → ".png"
+//   ALLOWED_EXTENSIONS.includes(".png") → true ✓
 
-Both pass → file accepted ✓
+// Both pass → file accepted ✓
 
 
-File arrives with:
-  mimetype:  "application/pdf"
-  filename:  "document.pdf"
+// File arrives with:
+//   mimetype:  "application/pdf"
+//   filename:  "document.pdf"
 
-Check 1 — MIME type:
-  ALLOWED_MIME_TYPES.includes("application/pdf") → false ✗
+// Check 1 — MIME type:
+//   ALLOWED_MIME_TYPES.includes("application/pdf") → false ✗
 
-Rejected → INVALID_FILE_TYPE error
-```
+// Rejected → INVALID_FILE_TYPE error
+// ```

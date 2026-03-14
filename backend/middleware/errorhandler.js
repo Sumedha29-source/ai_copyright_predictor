@@ -349,64 +349,64 @@ module.exports = {
   errorHandler,
   notFoundHandler,
 };
-```
+// ```
 
----
+// ---
 
-### What each part does
-```
-```
-errorHandler.js
-│
-├── errorHandler()
-│   │
-│   ├── Log error
-│   │   ├── message
-│   │   ├── stack (dev only)
-│   │   ├── path
-│   │   ├── method
-│   │   └── ip
-│   │
-│   ├── Multer errors
-│   │   ├── LIMIT_FILE_SIZE       → 400
-│   │   ├── LIMIT_FILE_COUNT      → 400
-│   │   ├── LIMIT_UNEXPECTED_FILE → 400
-│   │   └── INVALID_FILE_TYPE     → 400
-│   │
-│   ├── Validation errors         → 400
-│   │
-│   ├── Auth errors
-│   │   ├── 401 Unauthorized      → 401
-│   │   └── 403 Forbidden         → 403
-│   │
-│   ├── Not found                 → 404
-│   │
-│   ├── Blockchain errors
-│   │   ├── AlreadyVerified       → 409
-│   │   ├── VerificationNotFound  → 404
-│   │   ├── OwnableUnauthorized   → 403
-│   │   ├── EmptyImageHash        → 400
-│   │   ├── ScoreOutOfRange       → 400
-│   │   ├── IndexOutOfRange       → 404
-│   │   ├── CALL_EXCEPTION        → 502
-│   │   ├── NETWORK_ERROR         → 503
-│   │   ├── INSUFFICIENT_FUNDS    → 402
-│   │   ├── REPLACEMENT_UNDERPRICED → 400
-│   │   └── TIMEOUT               → 504
-│   │
-│   ├── OpenAI errors
-│   │   ├── rate limit            → 429
-│   │   ├── quota exceeded        → 402
-│   │   ├── invalid_api_key       → 500
-│   │   └── unprocessable image   → 400
-│   │
-│   ├── Parse errors
-│   │   ├── Invalid JSON          → 400
-│   │   └── Payload too large     → 413
-│   │
-│   └── Default                   → 500
-│       └── hides message in prod
-│
-└── notFoundHandler()
-    └── catches unknown routes    → 404
-```
+// ### What each part does
+// ```
+// ```
+// errorHandler.js
+// │
+// ├── errorHandler()
+// │   │
+// │   ├── Log error
+// │   │   ├── message
+// │   │   ├── stack (dev only)
+// │   │   ├── path
+// │   │   ├── method
+// │   │   └── ip
+// │   │
+// │   ├── Multer errors
+// │   │   ├── LIMIT_FILE_SIZE       → 400
+// │   │   ├── LIMIT_FILE_COUNT      → 400
+// │   │   ├── LIMIT_UNEXPECTED_FILE → 400
+// │   │   └── INVALID_FILE_TYPE     → 400
+// │   │
+// │   ├── Validation errors         → 400
+// │   │
+// │   ├── Auth errors
+// │   │   ├── 401 Unauthorized      → 401
+// │   │   └── 403 Forbidden         → 403
+// │   │
+// │   ├── Not found                 → 404
+// │   │
+// │   ├── Blockchain errors
+// │   │   ├── AlreadyVerified       → 409
+// │   │   ├── VerificationNotFound  → 404
+// │   │   ├── OwnableUnauthorized   → 403
+// │   │   ├── EmptyImageHash        → 400
+// │   │   ├── ScoreOutOfRange       → 400
+// │   │   ├── IndexOutOfRange       → 404
+// │   │   ├── CALL_EXCEPTION        → 502
+// │   │   ├── NETWORK_ERROR         → 503
+// │   │   ├── INSUFFICIENT_FUNDS    → 402
+// │   │   ├── REPLACEMENT_UNDERPRICED → 400
+// │   │   └── TIMEOUT               → 504
+// │   │
+// │   ├── OpenAI errors
+// │   │   ├── rate limit            → 429
+// │   │   ├── quota exceeded        → 402
+// │   │   ├── invalid_api_key       → 500
+// │   │   └── unprocessable image   → 400
+// │   │
+// │   ├── Parse errors
+// │   │   ├── Invalid JSON          → 400
+// │   │   └── Payload too large     → 413
+// │   │
+// │   └── Default                   → 500
+// │       └── hides message in prod
+// │
+// └── notFoundHandler()
+//     └── catches unknown routes    → 404
+// ```

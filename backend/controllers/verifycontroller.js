@@ -299,204 +299,204 @@ module.exports = {
   verifyArtwork,
   checkHash,
 };
-```
+// ```
 
----
+// ---
 
-### What each part does
-```
-```
-verifyController.js
-│
-├── verifyArtwork()
-│   │
-│   ├── Step 0 — Check file uploaded
-│   │   └── 400 if no file
-│   │
-│   ├── Step 1 — Hash the image
-│   │   └── SHA256 from disk
-│   │
-│   ├── Step 2 — Check duplicate
-│   │   ├── lookup hash on chain
-│   │   └── return existing if found
-│   │       skip AI + blockchain
-│   │
-│   ├── Step 3 — AI analysis
-│   │   ├── GPT-4o Vision
-│   │   └── returns score + style
-│   │
-│   ├── Step 4 — Store on blockchain
-│   │   ├── calls storeOnBlockchain()
-│   │   └── returns txHash + block
-│   │
-│   ├── Step 5 — Clean up file
-│   │   └── deletes from uploads/
-│   │
-│   └── Send response
-│       ├── score
-│       ├── certified
-│       ├── imageHash
-│       ├── txHash
-│       ├── blockNumber
-│       └── status
-│
-├── checkHash()
-│   ├── validates hash param
-│   │   ├── required
-│   │   └── min 8 chars
-│   ├── looks up on blockchain
-│   └── returns exists + record
-│
-└── deleteFile()
-    ├── wraps fs.unlink in Promise
-    └── ignores ENOENT error
-```
+// ### What each part does
+// ```
+// ```
+// verifyController.js
+// │
+// ├── verifyArtwork()
+// │   │
+// │   ├── Step 0 — Check file uploaded
+// │   │   └── 400 if no file
+// │   │
+// │   ├── Step 1 — Hash the image
+// │   │   └── SHA256 from disk
+// │   │
+// │   ├── Step 2 — Check duplicate
+// │   │   ├── lookup hash on chain
+// │   │   └── return existing if found
+// │   │       skip AI + blockchain
+// │   │
+// │   ├── Step 3 — AI analysis
+// │   │   ├── GPT-4o Vision
+// │   │   └── returns score + style
+// │   │
+// │   ├── Step 4 — Store on blockchain
+// │   │   ├── calls storeOnBlockchain()
+// │   │   └── returns txHash + block
+// │   │
+// │   ├── Step 5 — Clean up file
+// │   │   └── deletes from uploads/
+// │   │
+// │   └── Send response
+// │       ├── score
+// │       ├── certified
+// │       ├── imageHash
+// │       ├── txHash
+// │       ├── blockNumber
+// │       └── status
+// │
+// ├── checkHash()
+// │   ├── validates hash param
+// │   │   ├── required
+// │   │   └── min 8 chars
+// │   ├── looks up on blockchain
+// │   └── returns exists + record
+// │
+// └── deleteFile()
+//     ├── wraps fs.unlink in Promise
+//     └── ignores ENOENT error
+// ```
 
-```
+// ```
 
-### Full verification flow
-```
-```
-POST /api/verify
-  (multipart/form-data, artwork=sunset.png)
-        ↓
-multer saves to uploads/timestamp-sunset.png
-        ↓
-hashImageFile()
-  → "0x3f9a8b2cd4e5f..."
-        ↓
-lookupHash("0x3f9a...")
-  → null (not duplicate)
-        ↓
-analyzeImageWithAI(filePath)
-  → { score: 97, certified: true, style: "abstract" }
-        ↓
-storeOnBlockchain({ imageHash, score, certified, fileName })
-  → { txHash: "0xabc1...", blockNumber: 5842301 }
-        ↓
-deleteFile(filePath)
-  → uploads/timestamp-sunset.png deleted
-        ↓
-res.json({ success: true, data: { ... } })
-```
+// ### Full verification flow
+// ```
+// ```
+// POST /api/verify
+//   (multipart/form-data, artwork=sunset.png)
+//         ↓
+// multer saves to uploads/timestamp-sunset.png
+//         ↓
+// hashImageFile()
+//   → "0x3f9a8b2cd4e5f..."
+//         ↓
+// lookupHash("0x3f9a...")
+//   → null (not duplicate)
+//         ↓
+// analyzeImageWithAI(filePath)
+//   → { score: 97, certified: true, style: "abstract" }
+//         ↓
+// storeOnBlockchain({ imageHash, score, certified, fileName })
+//   → { txHash: "0xabc1...", blockNumber: 5842301 }
+//         ↓
+// deleteFile(filePath)
+//   → uploads/timestamp-sunset.png deleted
+//         ↓
+// res.json({ success: true, data: { ... } })
+// ```
 
-```
+// ```
 
-### API responses
-```
-```
-POST /api/verify — success
+// ### API responses
+// ```
+// ```
+// POST /api/verify — success
 
-{
-  "success":   true,
-  "duplicate": false,
-  "data": {
-    "score":       97,
-    "certified":   true,
-    "imageHash":   "0x3f9a...",
-    "fileName":    "sunset.png",
-    "fileSize":    2457600,
-    "mimeType":    "image/png",
-    "txHash":      "0xabc1...",
-    "blockNumber": 5842301,
-    "gasUsed":     88000,
-    "network":     "sepolia",
-    "timestamp":   1710000000,
-    "date":        "2026-03-12T10:00:00.000Z",
-    "status":      "CERTIFIED",
-    "details":     "Highly original abstract composition",
-    "style":       "abstract"
-  }
-}
-
-
-POST /api/verify — duplicate
-
-{
-  "success":   true,
-  "duplicate": true,
-  "message":   "This artwork has already been verified.",
-  "data": {
-    "score":     97,
-    "certified": true,
-    "imageHash": "0x3f9a...",
-    "status":    "CERTIFIED"
-  }
-}
+// {
+//   "success":   true,
+//   "duplicate": false,
+//   "data": {
+//     "score":       97,
+//     "certified":   true,
+//     "imageHash":   "0x3f9a...",
+//     "fileName":    "sunset.png",
+//     "fileSize":    2457600,
+//     "mimeType":    "image/png",
+//     "txHash":      "0xabc1...",
+//     "blockNumber": 5842301,
+//     "gasUsed":     88000,
+//     "network":     "sepolia",
+//     "timestamp":   1710000000,
+//     "date":        "2026-03-12T10:00:00.000Z",
+//     "status":      "CERTIFIED",
+//     "details":     "Highly original abstract composition",
+//     "style":       "abstract"
+//   }
+// }
 
 
-GET /api/verify/:hash — found
+// POST /api/verify — duplicate
 
-{
-  "success": true,
-  "exists":  true,
-  "data": {
-    "imageHash":  "0x3f9a...",
-    "score":      97,
-    "certified":  true,
-    "fileName":   "sunset.png",
-    "timestamp":  1710000000,
-    "submitter":  "0xABC...123",
-    "date":       "2026-03-12T10:00:00.000Z",
-    "status":     "CERTIFIED"
-  }
-}
+// {
+//   "success":   true,
+//   "duplicate": true,
+//   "message":   "This artwork has already been verified.",
+//   "data": {
+//     "score":     97,
+//     "certified": true,
+//     "imageHash": "0x3f9a...",
+//     "status":    "CERTIFIED"
+//   }
+// }
 
 
-GET /api/verify/:hash — not found
+// GET /api/verify/:hash — found
 
-{
-  "success": true,
-  "exists":  false,
-  "data":    null
-}
-```
+// {
+//   "success": true,
+//   "exists":  true,
+//   "data": {
+//     "imageHash":  "0x3f9a...",
+//     "score":      97,
+//     "certified":  true,
+//     "fileName":   "sunset.png",
+//     "timestamp":  1710000000,
+//     "submitter":  "0xABC...123",
+//     "date":       "2026-03-12T10:00:00.000Z",
+//     "status":     "CERTIFIED"
+//   }
+// }
 
-```
 
-### Error responses
-```
-```
-No file uploaded:
-{
-  "success": false,
-  "error":   "No artwork file uploaded. Please attach an image."
-}
+// GET /api/verify/:hash — not found
 
-Hash too short:
-{
-  "success": false,
-  "error":   "Hash is too short. Provide full SHA256 hash."
-}
+// {
+//   "success": true,
+//   "exists":  false,
+//   "data":    null
+// }
+// ```
 
-Hash missing:
-{
-  "success": false,
-  "error":   "Hash parameter is required."
-}
-```
+// ```
 
-```
+// ### Error responses
+// ```
+// ```
+// No file uploaded:
+// {
+//   "success": false,
+//   "error":   "No artwork file uploaded. Please attach an image."
+// }
 
-### Console log output
-```
-```
-[VERIFY] Starting verification
-[VERIFY] File:     sunset.png
-[VERIFY] Type:     image/png
-[VERIFY] Size:     2400.0 KB
-[VERIFY] Path:     uploads/1710000000-sunset.png
-[VERIFY] Step 1 — Hashing image...
-[VERIFY] Hash: 0x3f9a8b2cd4e5f6b24c...
-[VERIFY] Step 2 — Checking for duplicate...
-[VERIFY] Step 3 — Running AI analysis...
-[VERIFY] AI score:     97
-[VERIFY] AI certified: true
-[VERIFY] AI style:     abstract
-[VERIFY] Step 4 — Storing on blockchain...
-[VERIFY] TX Hash:     0xabc123...
-[VERIFY] Block:       5842301
-[VERIFY] Gas used:    88000
-[VERIFY] Step 5 — Cleaning up temp file...
-[VERIFY] Verification complete ✓
-```
+// Hash too short:
+// {
+//   "success": false,
+//   "error":   "Hash is too short. Provide full SHA256 hash."
+// }
+
+// Hash missing:
+// {
+//   "success": false,
+//   "error":   "Hash parameter is required."
+// }
+// ```
+
+// ```
+
+// ### Console log output
+// ```
+// ```
+// [VERIFY] Starting verification
+// [VERIFY] File:     sunset.png
+// [VERIFY] Type:     image/png
+// [VERIFY] Size:     2400.0 KB
+// [VERIFY] Path:     uploads/1710000000-sunset.png
+// [VERIFY] Step 1 — Hashing image...
+// [VERIFY] Hash: 0x3f9a8b2cd4e5f6b24c...
+// [VERIFY] Step 2 — Checking for duplicate...
+// [VERIFY] Step 3 — Running AI analysis...
+// [VERIFY] AI score:     97
+// [VERIFY] AI certified: true
+// [VERIFY] AI style:     abstract
+// [VERIFY] Step 4 — Storing on blockchain...
+// [VERIFY] TX Hash:     0xabc123...
+// [VERIFY] Block:       5842301
+// [VERIFY] Gas used:    88000
+// [VERIFY] Step 5 — Cleaning up temp file...
+// [VERIFY] Verification complete ✓
+// ```

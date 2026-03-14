@@ -388,240 +388,240 @@ process.on("uncaughtException", (err) => {
 // ==============================
 
 module.exports = app;
-```
+// ```
 
----
+// ---
 
-### What each part does
-```
-```
-server.js
-│
-├── Environment Variables
-│   ├── PORT       → 5000
-│   ├── NODE_ENV   → development
-│   └── CLIENT_URL → localhost:3000
-│
-├── app.set("trust proxy")
-│   └── required for Railway/Vercel
-│
-├── helmet()
-│   └── secure HTTP headers
-│
-├── cors()
-│   ├── origin      → CLIENT_URL only
-│   ├── methods     → GET POST DELETE
-│   └── credentials → true
-│
-├── rateLimit (global)
-│   ├── 100 req per 15 min per IP
-│   └── logs when exceeded
-│
-├── verifyLimiter (strict)
-│   └── 10 req per 15 min per IP
-│       AI + blockchain are expensive
-│
-├── morgan()
-│   ├── dev  → colorized logs
-│   └── prod → Apache format
-│
-├── express.json()
-│   └── 10MB limit
-│
-├── express.static()
-│   └── serves /uploads directory
-│
-├── GET /
-│   └── quick health check
-│
-├── GET /api/health
-│   ├── uptime
-│   ├── memory usage
-│   └── services configured
-│
-├── Routes
-│   ├── /api/verify  + verifyLimiter
-│   └── /api/history
-│
-├── notFoundHandler
-│   └── catches unknown routes
-│
-├── errorHandler
-│   └── catches all next(error)
-│
-├── app.listen()
-│   ├── prints startup info
-│   ├── runs cleanUpOldFiles()
-│   └── schedules cleanup every 6hrs
-│
-├── Graceful Shutdown
-│   ├── SIGTERM → server.close()
-│   ├── SIGINT  → server.close()
-│   └── force exit after 10s
-│
-├── unhandledRejection
-│   └── logs promise rejections
-│
-└── uncaughtException
-    └── logs + exits process
-```
+// ### What each part does
+// ```
+// ```
+// server.js
+// │
+// ├── Environment Variables
+// │   ├── PORT       → 5000
+// │   ├── NODE_ENV   → development
+// │   └── CLIENT_URL → localhost:3000
+// │
+// ├── app.set("trust proxy")
+// │   └── required for Railway/Vercel
+// │
+// ├── helmet()
+// │   └── secure HTTP headers
+// │
+// ├── cors()
+// │   ├── origin      → CLIENT_URL only
+// │   ├── methods     → GET POST DELETE
+// │   └── credentials → true
+// │
+// ├── rateLimit (global)
+// │   ├── 100 req per 15 min per IP
+// │   └── logs when exceeded
+// │
+// ├── verifyLimiter (strict)
+// │   └── 10 req per 15 min per IP
+// │       AI + blockchain are expensive
+// │
+// ├── morgan()
+// │   ├── dev  → colorized logs
+// │   └── prod → Apache format
+// │
+// ├── express.json()
+// │   └── 10MB limit
+// │
+// ├── express.static()
+// │   └── serves /uploads directory
+// │
+// ├── GET /
+// │   └── quick health check
+// │
+// ├── GET /api/health
+// │   ├── uptime
+// │   ├── memory usage
+// │   └── services configured
+// │
+// ├── Routes
+// │   ├── /api/verify  + verifyLimiter
+// │   └── /api/history
+// │
+// ├── notFoundHandler
+// │   └── catches unknown routes
+// │
+// ├── errorHandler
+// │   └── catches all next(error)
+// │
+// ├── app.listen()
+// │   ├── prints startup info
+// │   ├── runs cleanUpOldFiles()
+// │   └── schedules cleanup every 6hrs
+// │
+// ├── Graceful Shutdown
+// │   ├── SIGTERM → server.close()
+// │   ├── SIGINT  → server.close()
+// │   └── force exit after 10s
+// │
+// ├── unhandledRejection
+// │   └── logs promise rejections
+// │
+// └── uncaughtException
+//     └── logs + exits process
+// ```
 
-```
+// ```
 
-### Startup console output
-```
-```
-==============================
-  ArtChain API Server
-==============================
+// ### Startup console output
+// ```
+// ```
+// ==============================
+//   ArtChain API Server
+// ==============================
 
-  Status:   Running ✓
-  Port:     5000
-  Env:      development
-  Client:   http://localhost:3000
-  Node:     v20.11.0
+//   Status:   Running ✓
+//   Port:     5000
+//   Env:      development
+//   Client:   http://localhost:3000
+//   Node:     v20.11.0
 
-  Endpoints:
-  GET  /
-  GET  /api/health
-  POST /api/verify
-  GET  /api/verify/:hash
-  GET  /api/history
-  GET  /api/history/search
-  GET  /api/history/:id
-  DELETE /api/history/:id
+//   Endpoints:
+//   GET  /
+//   GET  /api/health
+//   POST /api/verify
+//   GET  /api/verify/:hash
+//   GET  /api/history
+//   GET  /api/history/search
+//   GET  /api/history/:id
+//   DELETE /api/history/:id
 
-  Services:
-  OpenAI:     ✓ configured
-  Blockchain: ✓ configured
-  Contract:   ✓ configured
+//   Services:
+//   OpenAI:     ✓ configured
+//   Blockchain: ✓ configured
+//   Contract:   ✓ configured
 
-==============================
-```
+// ==============================
+// ```
 
-```
+// ```
 
-### Health check response
+// ### Health check response
 
-GET /api/health
+// GET /api/health
 
-{
-  "success":   true,
-  "status":    "healthy",
-  "timestamp": "2026-03-12T10:00:00.000Z",
+// {
+//   "success":   true,
+//   "status":    "healthy",
+//   "timestamp": "2026-03-12T10:00:00.000Z",
 
-  "server": {
-    "uptime":      "5m 32s",
-    "uptimeSec":   332.4,
-    "nodeVersion": "v20.11.0",
-    "env":         "development",
-    "port":        5000
-  },
+//   "server": {
+//     "uptime":      "5m 32s",
+//     "uptimeSec":   332.4,
+//     "nodeVersion": "v20.11.0",
+//     "env":         "development",
+//     "port":        5000
+//   },
 
-  "memory": {
-    "heapUsed":  "48MB",
-    "heapTotal": "64MB",
-    "rss":       "82MB",
-    "external":  "2MB"
-  },
+//   "memory": {
+//     "heapUsed":  "48MB",
+//     "heapTotal": "64MB",
+//     "rss":       "82MB",
+//     "external":  "2MB"
+//   },
 
-  "services": {
-    "openai":     true,
-    "blockchain": true,
-    "contract":   true
-  }
-}
-```
+//   "services": {
+//     "openai":     true,
+//     "blockchain": true,
+//     "contract":   true
+//   }
+// }
+// ```
 
-```
+// ```
 
-### Middleware order
-```
-```
-Request comes in
-      ↓
-helmet()          → security headers
-      ↓
-cors()            → allow frontend origin
-      ↓
-rateLimit()       → 100 req / 15min
-      ↓
-morgan()          → log request
-      ↓
-express.json()    → parse body
-      ↓
-express.static()  → serve uploads/
-      ↓
-Routes
-  GET  /
-  GET  /api/health
-  POST /api/verify   + verifyLimiter
-  GET  /api/verify/:hash
-  GET  /api/history
-  ...
-      ↓
-notFoundHandler() → 404 for unknown routes
-      ↓
-errorHandler()    → catches all errors
-```
+// ### Middleware order
+// ```
+// ```
+// Request comes in
+//       ↓
+// helmet()          → security headers
+//       ↓
+// cors()            → allow frontend origin
+//       ↓
+// rateLimit()       → 100 req / 15min
+//       ↓
+// morgan()          → log request
+//       ↓
+// express.json()    → parse body
+//       ↓
+// express.static()  → serve uploads/
+//       ↓
+// Routes
+//   GET  /
+//   GET  /api/health
+//   POST /api/verify   + verifyLimiter
+//   GET  /api/verify/:hash
+//   GET  /api/history
+//   ...
+//       ↓
+// notFoundHandler() → 404 for unknown routes
+//       ↓
+// errorHandler()    → catches all errors
+// ```
 
-```
+// ```
 
-### Graceful shutdown flow
-```
-```
-User presses Ctrl+C
-  → SIGINT signal sent
-      ↓
-shutdown("SIGINT") called
-      ↓
-server.close()
-  → stops accepting new connections
-  → waits for in-flight requests
-      ↓
-All connections drained
-      ↓
-[SERVER] All connections closed.
-[SERVER] Goodbye ✓
-      ↓
-process.exit(0)
+// ### Graceful shutdown flow
+// ```
+// ```
+// User presses Ctrl+C
+//   → SIGINT signal sent
+//       ↓
+// shutdown("SIGINT") called
+//       ↓
+// server.close()
+//   → stops accepting new connections
+//   → waits for in-flight requests
+//       ↓
+// All connections drained
+//       ↓
+// [SERVER] All connections closed.
+// [SERVER] Goodbye ✓
+//       ↓
+// process.exit(0)
 
-If takes > 10 seconds:
-      ↓
-Force exit → process.exit(1)
-```
+// If takes > 10 seconds:
+//       ↓
+// Force exit → process.exit(1)
+// ```
 
-```
+// ```
 
-### Quick copy guide
+// ### Quick copy guide
 
-| File | Paste into |
+// | File | Paste into |
 
-```
-| `server.js` | `backend/server.js` |
+// ```
+// | `server.js` | `backend/server.js` |
 
-```
+// ```
 
-### Location reminder
-```
-```
-backend/
-├── controllers/
-│   ├── verifyController.js
-│   └── historyController.js
-├── middleware/
-│   ├── errorHandler.js
-│   └── upload.js
-├── routes/
-│   ├── verifyRoutes.js
-│   └── historyRoutes.js
-├── services/
-│   ├── aiService.js
-│   └── blockchainService.js
-├── utils/
-│   └── hashImage.js
-├── uploads/
-├── server.js              ← HERE
-├── .env
-└── package.json
-```
+// ### Location reminder
+// ```
+// ```
+// backend/
+// ├── controllers/
+// │   ├── verifyController.js
+// │   └── historyController.js
+// ├── middleware/
+// │   ├── errorHandler.js
+// │   └── upload.js
+// ├── routes/
+// │   ├── verifyRoutes.js
+// │   └── historyRoutes.js
+// ├── services/
+// │   ├── aiService.js
+// │   └── blockchainService.js
+// ├── utils/
+// │   └── hashImage.js
+// ├── uploads/
+// ├── server.js              ← HERE
+// ├── .env
+// └── package.json
+// ```

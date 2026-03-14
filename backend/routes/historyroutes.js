@@ -1,14 +1,15 @@
 // backend/routes/historyRoutes.js
-import express from "express";
-import {
+const express = require("express");
+const {
   getAllHistory,
   getHistoryById,
   searchHistory,
   deleteHistoryById,
-} from "../controllers/historycontroller.js";
-import { errorHandler } from "../middleware/errorhandler.js";
+} = require("../controllers/historycontroller");
+const { errorHandler } = require("../middleware/errorhandler");
 
 const router = express.Router();
+
 
 // ==============================
 // GET /api/history
@@ -64,32 +65,32 @@ router.delete(
 
 router.use(errorHandler);
 
-export default router;
-```
+module.exports = router;
+// ```
 
----
+// ---
 
-### What each part does
-```
-```
-historyRoutes.js
-│
-├── GET /api/history
-│   └── getAllHistory()
-│       └── returns all records + pagination
-│
-├── GET /api/history/search?query=
-│   └── searchHistory()
-│       └── search by filename or hash
-│
-├── GET /api/history/:id
-│   └── getHistoryById()
-│       └── returns single record
-│
-├── DELETE /api/history/:id
-│   └── deleteHistoryById()
-│       └── deletes single record
-│
-└── errorHandler
-    └── catches any route errors
-```
+// ### What each part does
+// ```
+// ```
+// historyRoutes.js
+// │
+// ├── GET /api/history
+// │   └── getAllHistory()
+// │       └── returns all records + pagination
+// │
+// ├── GET /api/history/search?query=
+// │   └── searchHistory()
+// │       └── search by filename or hash
+// │
+// ├── GET /api/history/:id
+// │   └── getHistoryById()
+// │       └── returns single record
+// │
+// ├── DELETE /api/history/:id
+// │   └── deleteHistoryById()
+// │       └── deletes single record
+// │
+// └── errorHandler
+//     └── catches any route errors
+// ```

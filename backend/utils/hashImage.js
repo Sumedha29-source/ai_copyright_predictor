@@ -368,59 +368,59 @@ module.exports = {
   isValidHash,
   hashMultipleFiles,
 };
-```
+// ```
 
----
+// ---
 
-### What each part does
-```
-```
-hashImage.js
-│
-├── hashImageFile()
-│   ├── validates file path
-│   ├── checks file exists
-│   ├── streams file in chunks
-│   │   └── safe for large files
-│   ├── updates SHA256 on each chunk
-│   └── returns "0x" + hex digest
-│
-├── hashImageBuffer()
-│   ├── validates Buffer input
-│   ├── checks not empty
-│   └── returns "0x" + hex digest
-│
-├── hashImageBase64()
-│   ├── validates string input
-│   ├── strips data URI prefix
-│   │   "data:image/png;base64,..."
-│   │    → strips before comma
-│   ├── converts to Buffer
-│   └── calls hashImageBuffer()
-│
-├── compareHashes()
-│   ├── validates both inputs
-│   ├── strips 0x prefix
-│   ├── checks same length
-│   └── timing-safe comparison
-│       prevents timing attacks
-│
-├── generateShortHash()
-│   ├── strips 0x for slicing
-│   ├── takes prefix chars
-│   ├── takes suffix chars
-│   └── "0x3f9a...b24c"
-│
-├── isValidHash()
-│   ├── strips 0x prefix
-│   └── checks 64 hex chars
-│       /^[0-9a-fA-F]{64}$/
-│
-└── hashMultipleFiles()
-    ├── validates array input
-    ├── hashes all in parallel
-    └── returns results array
-        ├── filePath
-        ├── hash
-        └── error
-```
+// ### What each part does
+// ```
+// ```
+// hashImage.js
+// │
+// ├── hashImageFile()
+// │   ├── validates file path
+// │   ├── checks file exists
+// │   ├── streams file in chunks
+// │   │   └── safe for large files
+// │   ├── updates SHA256 on each chunk
+// │   └── returns "0x" + hex digest
+// │
+// ├── hashImageBuffer()
+// │   ├── validates Buffer input
+// │   ├── checks not empty
+// │   └── returns "0x" + hex digest
+// │
+// ├── hashImageBase64()
+// │   ├── validates string input
+// │   ├── strips data URI prefix
+// │   │   "data:image/png;base64,..."
+// │   │    → strips before comma
+// │   ├── converts to Buffer
+// │   └── calls hashImageBuffer()
+// │
+// ├── compareHashes()
+// │   ├── validates both inputs
+// │   ├── strips 0x prefix
+// │   ├── checks same length
+// │   └── timing-safe comparison
+// │       prevents timing attacks
+// │
+// ├── generateShortHash()
+// │   ├── strips 0x for slicing
+// │   ├── takes prefix chars
+// │   ├── takes suffix chars
+// │   └── "0x3f9a...b24c"
+// │
+// ├── isValidHash()
+// │   ├── strips 0x prefix
+// │   └── checks 64 hex chars
+// │       /^[0-9a-fA-F]{64}$/
+// │
+// └── hashMultipleFiles()
+//     ├── validates array input
+//     ├── hashes all in parallel
+//     └── returns results array
+//         ├── filePath
+//         ├── hash
+//         └── error
+// ```

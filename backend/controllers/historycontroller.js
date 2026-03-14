@@ -378,166 +378,166 @@ module.exports = {
   searchHistory,
   deleteHistoryById,
 };
-```
+// ```
 
----
+// ---
 
-### What each part does
-```
-```
-historyController.js
-│
-├── getAllHistory()
-│   ├── parses page + limit params
-│   ├── calculates skip offset
-│   ├── fetches from blockchain
-│   ├── formats each record
-│   └── returns paginated response
-│       ├── data
-│       └── pagination meta
-│
-├── getHistoryById()
-│   ├── validates ID is integer >= 0
-│   ├── fetches single record by ID
-│   ├── handles IndexOutOfRange error
-│   └── returns formatted record
-│
-├── searchHistory()
-│   ├── validates query param
-│   │   ├── required
-│   │   └── min 2 chars
-│   ├── fetches all records
-│   ├── filters by query
-│   ├── paginates results
-│   └── returns matches + meta
-│
-├── deleteHistoryById()
-│   ├── validates ID
-│   ├── fetches record for hash
-│   ├── calls deleteVerification()
-│   ├── handles not authorized error
-│   └── returns deleted record info
-│
-├── formatRecord()
-│   ├── converts BigInt → Number
-│   ├── adds human readable date
-│   ├── adds CERTIFIED/FLAGGED status
-│   └── adds formatted cert ID
-│
-└── formatCertId()
-    └── 142 → CERT-2026-00142
-```
+// ### What each part does
+// ```
+// ```
+// historyController.js
+// │
+// ├── getAllHistory()
+// │   ├── parses page + limit params
+// │   ├── calculates skip offset
+// │   ├── fetches from blockchain
+// │   ├── formats each record
+// │   └── returns paginated response
+// │       ├── data
+// │       └── pagination meta
+// │
+// ├── getHistoryById()
+// │   ├── validates ID is integer >= 0
+// │   ├── fetches single record by ID
+// │   ├── handles IndexOutOfRange error
+// │   └── returns formatted record
+// │
+// ├── searchHistory()
+// │   ├── validates query param
+// │   │   ├── required
+// │   │   └── min 2 chars
+// │   ├── fetches all records
+// │   ├── filters by query
+// │   ├── paginates results
+// │   └── returns matches + meta
+// │
+// ├── deleteHistoryById()
+// │   ├── validates ID
+// │   ├── fetches record for hash
+// │   ├── calls deleteVerification()
+// │   ├── handles not authorized error
+// │   └── returns deleted record info
+// │
+// ├── formatRecord()
+// │   ├── converts BigInt → Number
+// │   ├── adds human readable date
+// │   ├── adds CERTIFIED/FLAGGED status
+// │   └── adds formatted cert ID
+// │
+// └── formatCertId()
+//     └── 142 → CERT-2026-00142
+// ```
 
-```
+// ```
 
-### API responses
-```
-```
-GET /api/history
+// ### API responses
+// ```
+// ```
+// GET /api/history
 
-{
-  "success": true,
-  "data": [
-    {
-      "id":        0,
-      "imageHash": "0x3f9a...",
-      "score":     97,
-      "certified": true,
-      "fileName":  "sunset.png",
-      "timestamp": 1710000000,
-      "submitter": "0xABC...123",
-      "date":      "2026-03-12T10:00:00.000Z",
-      "status":    "CERTIFIED",
-      "certId":    "CERT-2026-00001"
-    }
-  ],
-  "pagination": {
-    "page":        1,
-    "limit":       10,
-    "total":       42,
-    "totalPages":  5,
-    "hasNextPage": true,
-    "hasPrevPage": false
-  }
-}
-
-
-GET /api/history/search?query=sunset
-
-{
-  "success": true,
-  "query":   "sunset",
-  "data":    [...],
-  "pagination": { ... }
-}
+// {
+//   "success": true,
+//   "data": [
+//     {
+//       "id":        0,
+//       "imageHash": "0x3f9a...",
+//       "score":     97,
+//       "certified": true,
+//       "fileName":  "sunset.png",
+//       "timestamp": 1710000000,
+//       "submitter": "0xABC...123",
+//       "date":      "2026-03-12T10:00:00.000Z",
+//       "status":    "CERTIFIED",
+//       "certId":    "CERT-2026-00001"
+//     }
+//   ],
+//   "pagination": {
+//     "page":        1,
+//     "limit":       10,
+//     "total":       42,
+//     "totalPages":  5,
+//     "hasNextPage": true,
+//     "hasPrevPage": false
+//   }
+// }
 
 
-DELETE /api/history/0
+// GET /api/history/search?query=sunset
 
-{
-  "success": true,
-  "message": "Record 0 deleted successfully.",
-  "data": {
-    "id":        0,
-    "imageHash": "0x3f9a...",
-    "deletedAt": "2026-03-12T10:00:00.000Z"
-  }
-}
-```
+// {
+//   "success": true,
+//   "query":   "sunset",
+//   "data":    [...],
+//   "pagination": { ... }
+// }
 
-```
 
-### Error responses
-```
-```
-Invalid ID:
-{
-  "success": false,
-  "error":   "Invalid record ID. Must be a non-negative integer."
-}
+// DELETE /api/history/0
 
-Not found:
-{
-  "success": false,
-  "error":   "Record with ID 99 not found."
-}
+// {
+//   "success": true,
+//   "message": "Record 0 deleted successfully.",
+//   "data": {
+//     "id":        0,
+//     "imageHash": "0x3f9a...",
+//     "deletedAt": "2026-03-12T10:00:00.000Z"
+//   }
+// }
+// ```
 
-Not authorized:
-{
-  "success": false,
-  "error":   "Not authorized. Only the contract owner can delete records."
-}
+// ```
 
-Empty search:
-{
-  "success": false,
-  "error":   "Query parameter is required."
-}
+// ### Error responses
+// ```
+// ```
+// Invalid ID:
+// {
+//   "success": false,
+//   "error":   "Invalid record ID. Must be a non-negative integer."
+// }
 
-Short search:
-{
-  "success": false,
-  "error":   "Query must be at least 2 characters."
-}
-```
+// Not found:
+// {
+//   "success": false,
+//   "error":   "Record with ID 99 not found."
+// }
 
-```
+// Not authorized:
+// {
+//   "success": false,
+//   "error":   "Not authorized. Only the contract owner can delete records."
+// }
 
-### Pagination logic
-```
-```
-page  = 1, limit = 10
-skip  = (1 - 1) * 10 = 0
-fetch records 0 → 9
+// Empty search:
+// {
+//   "success": false,
+//   "error":   "Query parameter is required."
+// }
 
-page  = 2, limit = 10
-skip  = (2 - 1) * 10 = 10
-fetch records 10 → 19
+// Short search:
+// {
+//   "success": false,
+//   "error":   "Query must be at least 2 characters."
+// }
+// ```
 
-page  = 3, limit = 5
-skip  = (3 - 1) * 5 = 10
-fetch records 10 → 14
+// ```
 
-max limit capped at 50
-min page  clamped to 1
-```
+// ### Pagination logic
+// ```
+// ```
+// page  = 1, limit = 10
+// skip  = (1 - 1) * 10 = 0
+// fetch records 0 → 9
+
+// page  = 2, limit = 10
+// skip  = (2 - 1) * 10 = 10
+// fetch records 10 → 19
+
+// page  = 3, limit = 5
+// skip  = (3 - 1) * 5 = 10
+// fetch records 10 → 14
+
+// max limit capped at 50
+// min page  clamped to 1
+// ```
