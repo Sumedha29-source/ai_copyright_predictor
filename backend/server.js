@@ -2,6 +2,8 @@
 // server.js — Express Entry Point
 require("dotenv").config();
 
+const paymentRoutes = require("./routes/paymentRoutes");
+const { x402 }      = require("./middleware/x402");
 const express     = require("express");
 const cors        = require("cors");
 const helmet      = require("helmet");
@@ -247,15 +249,19 @@ app.get("/api/health", (req, res) => {
 // ==============================
 
 app.use(
-  "/api/verify",
-  verifyLimiter,
-  verifyRoutes
-);
+  "/api/verify",  
+  verifyLimiter, 
+  x402, verifyRoutes);
+
 
 app.use(
   "/api/history",
   historyRoutes
 );
+
+app.use(
+  "/api/payment",
+   paymentRoutes);
 
 // ==============================
 // Not Found Handler
